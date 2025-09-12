@@ -108,6 +108,20 @@ summary_corp_rep$reliability
 
 #### we can plot the reliability
 plot(summary_corp_rep$reliability)
+#### calling summary_corp_rep$validity$fl_criteria, we obtain Discriminant validty, specifically, Fornell-Larcker criterion (Fornell & Larcker, 1981)
+summary_corp_rep$validity$fl_criteria
+
+#### Calling summary_corp_rep$validity$htmt, we inspect heterotrait-monotrait ratio (HTMT)
+summary_corp_rep$validity$htmt
+
+
+`# We recommend the heterotrait-monotrait ratio (HTMT) of the correlations to assess discriminant validity (Henseler et al., 2015).
+The HTMT is the mean value of the indicator correlations across constructs (i.e., the heterotrait-heteromethod correlations) relative to the (geometric) mean of the average correlations for the indicators measuring the same construct (i.e., the monotrait-heteromethod correlations).
+Discriminant validity problems are present when HTMT values
+exceed 0.90 for constructs that are conceptually very similar.
+exceed 0.85 for constructs that are conceptually more distinct.`
+### Calling summary_corp_rep$vif_antecedents, we inspect the VIF for collinerity
+summary_corp_rep$vif_antecedents
 
 #### check if and when the algorithm converged, we can inspect the number of iterations in summary_corp_rep$iterations.
 summary_corp_rep$iterations
@@ -143,4 +157,5 @@ bootstrapped_loadings	The bootstrap estimated standard error, T statistic, and c
 bootstrapped_HTMT	The bootstrap estimated standard error, T statistic, and confidence intervals for the HTMT values.
 bootstrapped_total_paths	The bootstrap estimated standard error, T statistic, and confidence intervals for the model’s total effects.***
 
-## 7 Co
+
+# Mediation Analysis
