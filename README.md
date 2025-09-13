@@ -1,4 +1,4 @@
-# PL-SEM in R - Sample data
+<img width="945" height="529" alt="mediation decision chart" src="https://github.com/user-attachments/assets/1752d9af-2178-4f5e-8108-49ad1db8bb10" /># PL-SEM in R - Sample data
 
 ## PL-SEM with Sample data provided with the booK: Partial Least Squares Structural Equation Modeling (PLS-SEM) Using R ######
 ## by Joseph Hair, Tomas Hult, Christian M. Ringle, Marko Sarstedt, Nicholas Danks, and Soumya Ray.#####
@@ -588,7 +588,7 @@ library(seminr)
 library(semPlot)
 library(dplyr)
 
-
+set.seed(123)
 
  ## 3. Define measurement model
 mm <- constructs(
@@ -1041,6 +1041,7 @@ library(seminr)
 library(semPlot)
 library(dplyr)
 
+set.seed(123)
 
  ## 3. Define measurement model
 mm <- constructs(
@@ -1122,7 +1123,8 @@ sum_boot_model <- summary(boot_model)
 sum_boot_model$bootstrapped_paths
 
 ## 7. Convert PLS model to a semPlot-compatible object
-# seminr doesn't directly integrate, so we adapt using lavaan-like format
+# seminr doesn't directly [additional code - SEMINR.txt](https://github.com/user-attachments/files/22310232/additional.code.-.SEMINR.txt)
+integrate, so we adapt using lavaan-like format
 # First, get path relationships
 paths <- pls_model$path_coefficients
 print(paths)
@@ -1369,3 +1371,9 @@ write_csv(paths_table, "pls_path_coefficients_bootstrap.csv")
 
 # Useful References
   ` # Zhao, X., Lynch, J. G., & Chen, Q. (2010). Reconsidering baron and kenny: Myths and truths about mediation analysis. Journal of Consumer Research, 37(2), 197–206. https://doi.org/10.1086/651257`
+
+
+<img width="945" height="529" alt="mediation decision chart" src="https://github.com/user-attachments/assets/26502500-6986-4ff5-8e13-749885cb7f1e" />
+`Figure 1: Mediation Analysis Decision Chart`
+
+
