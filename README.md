@@ -1,4 +1,4 @@
-<img width="945" height="529" alt="mediation decision chart" src="https://github.com/user-attachments/assets/1752d9af-2178-4f5e-8108-49ad1db8bb10" /># PL-SEM in R - Sample data
+ # PL-SEM in R - Sample data
 
 ## PL-SEM with Sample data provided with the booK: Partial Least Squares Structural Equation Modeling (PLS-SEM) Using R ######
 ## by Joseph Hair, Tomas Hult, Christian M. Ringle, Marko Sarstedt, Nicholas Danks, and Soumya Ray.#####
