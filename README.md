@@ -252,8 +252,7 @@ corp_rep_pls_model_mod <- estimate_pls(
   missing = mean_replacement,
   missing_value = "-99"
 )
-## Generating the seminr model
-## All 344 observations are valid.
+
 
 # Extract the summary
 sum_corp_rep_mod <- summary(corp_rep_pls_model_mod)
@@ -1367,7 +1366,10 @@ dev.off()
 ## Extract path coefficients, standard errors, t-values, p-values from bootstrap
 paths_table <- sum_boot_model$paths %>% as.data.frame()
 # Make a neat CSV
+
 write_csv(paths_table, "pls_path_coefficients_bootstrap.csv")
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Useful References
   ` # Zhao, X., Lynch, J. G., & Chen, Q. (2010). Reconsidering baron and kenny: Myths and truths about mediation analysis. Journal of Consumer Research, 37(2), 197–206. https://doi.org/10.1086/651257`
