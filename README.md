@@ -1373,7 +1373,7 @@ write_csv(paths_table, "pls_path_coefficients_bootstrap.csv")
 
 # Useful References
   ` # Zhao, X., Lynch, J. G., & Chen, Q. (2010). Reconsidering baron and kenny: Myths and truths about mediation analysis. Journal of Consumer Research, 37(2), 197–206. https://doi.org/10.1086/651257`
-
+`https://sem-in-r.github.io/seminr/#1_Introduction`
 
 <img width="945" height="529" alt="mediation decision chart" src="https://github.com/user-attachments/assets/26502500-6986-4ff5-8e13-749885cb7f1e" />
 `Figure 1: Mediation Analysis Decision Chart`
