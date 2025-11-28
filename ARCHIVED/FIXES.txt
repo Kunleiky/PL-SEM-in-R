@@ -1,0 +1,143 @@
+
+# You only need to declare the main effects (MAT, FL) and the interaction (MAT*FL) once:
+
+
+
+## Measurement model
+mm_mod <- constructs(
+  composite("MAT", multi_items("MAT", 1:5), weights = mode_A),
+  composite("OP",  multi_items("OP", 1:5), weights = mode_A),
+  composite("FL",  multi_items("FL", 1:4), weights = mode_A),
+  interaction_term(iv = "MAT", moderator = "FL", method = product_indicator)
+)
+
+## Structural model
+sm_mod <- relationships(
+  paths(from = c("MAT", "FL", "MAT*FL"), to = "OP")
+)
+
+
+
+
+
+
+
+
+
+
+
+
+cor(dt)
+
+mod <- interactions(
+  interaction_orth("X", "Moderator", method = "product", orthogonalize = FALSE)
+)
+
+sm_mod <- relationships(
+  paths(from = c("X", "Moderator", "X*Moderator"), to = "Y")
+)
+
+
+
+
+
+
+
+
+# measurement model (example)
+mm_mod <- measurement_model(
+  reflective("X",    items = c("x1","x2","x3")),
+  reflective("Moderator", items = c("m1","m2","m3")),
+  reflective("Y",    items = c("y1","y2","y3"))
+)
+
+# create interaction (product; orthogonalize if needed)
+mods <- interactions(
+  # use orthogonalization if you have strong collinearity
+  interaction_orth("X", "Moderator", method = "product", orthogonalize = FALSE)
+)
+
+# structural model
+sm_mod <- relationships(
+  paths(from = c("X","Moderator","X*Moderator"), to = "Y")
+)
+
+# estimate
+pl_sm_mod <- estimate_pls(
+  data = dt,
+  measurement_model = mm_mod,
+  structural_model = sm_mod,
+  interactions = mods,
+  missing = mean_replacement,
+  missing_value = "-99"
+)
+
+
+# 3. Look for perfect correlations
+which(abs(cor(scores)) > 0.9999, arr.ind = TRUE)
+
+
+
+
+
+#### Alternative way to get mediation VIF
+FOR MODERATION
+# 6. VIF check for construct scores (requires 'car' package)
+lm1 <- lm(Y ~ X + Moderator + I(X*Moderator), data = as.data.frame(scores))
+car::vif(lm1)
+
+
+
+
+
+### FOR MEDIATION
+
+library(car)
+
+# get construct scores
+scores <- construct_scores(dt, mm_mod)
+
+# for the mediation regression: DV ~ IV + Mediator
+lm_med <- lm(OP ~ MAT + FL, data = as.data.frame(scores))
+
+# check VIF
+car::vif(lm_med)
+
+
+
+
+
+
+
+
+
+
+
+# Collinearity fix 
+## a mediator might not have item-level VIFs. So, NA is reported
+# Convert VIF list into a tidy data frame, including empty constructs
+vif_df <- do.call(rbind, lapply(names(sum_pls_med$validity$vif_items), function(construct) {
+  vif_vals <- sum_pls_med$validity$vif_items[[construct]] # sum_pls_med$validity$vif_items for mediation
+  
+  
+  if (length(vif_vals) == 0) {
+    # If construct has no VIF items, add a placeholder
+    data.frame(
+      Construct = construct,
+      Item      = NA,
+      VIF       = NA
+    )
+  } else {
+    data.frame(
+      Construct = construct,
+      Item      = names(vif_vals),
+      VIF       = unname(vif_vals)
+    )
+  }
+}))
+
+# Save to CSV
+write.csv(vif_df, "collinearity_med.csv", row.names = FALSE)
+
+
+

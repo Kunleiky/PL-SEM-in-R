@@ -1,0 +1,37 @@
+# Check the rownames 
+rownames(se_sig_med_CS)
+
+# Convert bootstrap results to data.frame 
+#se_sig_med_CS <- as.data.frame(se_sig_med_CS)
+se_sig_med_CS # Print to see the content
+
+
+
+# Compute p-values (using "T Stat." column with dot)
+se_sig_med_CS$p_value <- round(2 * (1 - pnorm(abs(se_sig_med_CS[,"T Stat."]))),4)
+
+colnames(se_sig_med_CS)
+head(se_sig_med_CS)
+
+# Add significance levels
+se_sig_med_CS$Significance <- cut(
+  se_sig_med_CS$p_value,
+  breaks = c(-Inf, 0.001, 0.01, 0.05, Inf),
+  labels = c("p < 0.001", "p < 0.01", "p < 0.05", "ns")
+)
+
+# Create a clean table with selected columns
+se_sig_med_CS <- se_sig_med_CS[, c("Original Est.",  "Bootstrap Mean", "Bootstrap SD",  "T Stat.",
+                                   "2.5% CI","97.5% CI", "p_value" ,      
+                                   "Significance" )]
+
+# Rename columns for clarity
+colnames(se_sig_med_CS) <-  c("Original Est.",  "Bootstrap Mean", "Bootstrap SD",  "T Stat.",
+                              "2.5% CI","97.5% CI", "p_value" ,      
+                              "Significance" )
+
+
+
+
+
+

@@ -1,0 +1,78 @@
+library(openxlsx)
+
+# --- 1. Define styles ---
+header_style <- createStyle(
+  fontSize   = 12,
+  fontColour = "white",
+  halign     = "center",
+  fgFill     = "#4F81BD",
+  border     = "Bottom",
+  bold       = TRUE
+)
+
+red_style <- createStyle(
+  fontColour = "white",
+  fgFill     = "#FF0000",  # red
+  halign     = "center",
+  valign     = "center",
+  bold       = TRUE
+)
+
+green_style <- createStyle(
+  fontColour = "white",
+  fgFill     = "#00B050",  # green
+  halign     = "center",
+  valign     = "center",
+  bold       = TRUE
+)
+
+# --- 2. Function to apply threshold formatting ---
+apply_threshold_styles <- function(wb, sheet, df) {
+  num_cols <- which(sapply(df, is.numeric))
+  
+  for (col in num_cols) {
+    for (row in 1:nrow(df)) {
+      val <- df[row, col]
+      if (!is.na(val)) {
+        if (val < 0.7) {
+          addStyle(wb, sheet, red_style, rows = row + 1, cols = col, gridExpand = TRUE)
+        } else {
+          addStyle(wb, sheet, green_style, rows = row + 1, cols = col, gridExpand = TRUE)
+        }
+      }
+    }
+  }
+}
+
+# --- 3. Extract results from seminr summary ---
+summary_pls_model <- summary(pls_model)
+
+results_list <- list(
+  Paths       = summary_pls_model$paths,
+  Loadings    = summary_pls_model$loadings,
+  Weights     = summary_pls_model$weights,
+  R2          = summary_pls_model$rSquared,
+  Reliability = summary_pls_model$reliability,
+  HTMT        = summary_pls_model$htmt,
+  F_Square    = summary_pls_model$fSquare
+)
+
+# --- 4. Write everything to Excel ---
+wb <- createWorkbook()
+
+for (name in names(results_list)) {
+  df <- results_list[[name]]
+  if (!is.null(df)) {
+    df <- as.data.frame(df)
+    
+    addWorksheet(wb, name)
+    writeData(wb, name, df, headerStyle = header_style, borders = "all")
+    setColWidths(wb, name, cols = 1:ncol(df), widths = "auto")
+    
+    # Apply conditional styles
+    apply_threshold_styles(wb, name, df)
+  }
+}
+
+# --- 5. Save ---
+saveWorkbook(wb, "Model_Results_Formatted.xlsx", overwrite = TRUE)
